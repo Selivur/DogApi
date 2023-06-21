@@ -1,8 +1,11 @@
 using DogApi.Model.DbContext;
+using DogApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
+// Add services to the container.
+builder.Services.AddTransient<IDogServices, DogService>();
 //DbContext DepInj
 builder.Services.AddDbContext<DogContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

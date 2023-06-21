@@ -1,6 +1,8 @@
 ﻿using DogApi.Model.DbContext;
 using DogApi.Model.Dto;
 using DogApi.Model.Entities;
+using DogApi.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
@@ -9,10 +11,11 @@ namespace DogApi.Controllers
     [ApiController]
     public class MainController : Controller
     {
-        private readonly DogContext _context;
-        public MainController(DogContext context) 
+        private readonly IDogServices _service;
+
+        public MainController(IDogServices service)
         {
-            _context = context;
+            _service = service;
         }
         [HttpGet]
         [Route("dogs")]
@@ -26,12 +29,18 @@ namespace DogApi.Controllers
                     .ToList();
                 return BadRequest(errorMessages);
             }
-            return Ok(_context.Dogs);
+            var queriedDogs = await _service.GetQueriedDogsAsync(request);
+            if (!queriedDogs.IsSuccess)
+            {
+                return BadRequest(queriedDogs.ErrorMessage);
+            }
+            return Ok(queriedDogs.Dogs);
         }
         [HttpPost]
         [Route("dog")]
         public async Task<IActionResult> CreateDog([FromBody] CreateDogRequest dog)
-        {          
+        {
+            var createDog = await _service.CreateDogAsync(dog);
             if (!ModelState.IsValid)
             {
                 var errorMessages = ModelState.Values
@@ -40,15 +49,8 @@ namespace DogApi.Controllers
                     .ToList();
                 return BadRequest(errorMessages);
             }
-            Dog dogs = new Dog
-            {
-                Name = dog.Name,
-                Color = dog.Color,
-                TailLength = dog.TailLength,
-                Weight = dog.Weight
-            };
-            _context.Add(dogs);
-            _context.SaveChanges();
+            if (!createDog.IsSuccess)
+                return BadRequest(createDog.ErrorMessage);
             return Created("/dog", dog);
 
         }
