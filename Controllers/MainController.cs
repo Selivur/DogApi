@@ -29,7 +29,7 @@ namespace DogApi.Controllers
                     .ToList();
                 return BadRequest(errorMessages);
             }
-            var queriedDogs = await _service.GetQueriedDogsAsync(request);
+            var queriedDogs = await _service.GetQueriedDogsAsync(request with { PageNumber = 1, PageSize = 10 });
             if (!queriedDogs.IsSuccess)
             {
                 return BadRequest(queriedDogs.ErrorMessage);
