@@ -84,7 +84,6 @@ namespace DogApi.Services
                 int startIndex = (int)((queriedDogs.PageNumber - 1) * queriedDogs.PageSize);
                 var dogs = await dogsQuery.Skip(startIndex).Take((int)queriedDogs.PageSize).ToListAsync();
                 return (true, string.Empty, dogs);
-                return (true, string.Empty, await dogsQuery.ToListAsync());
             }
             catch (Exception e)
             {
