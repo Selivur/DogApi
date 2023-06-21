@@ -12,10 +12,11 @@ namespace DogApi.Model.Dto
         [JsonPropertyName("color")]
         public string Color { get; set; }
 
-        [Range(0, 100, ErrorMessage = "Tail height cannot be a negative number or greater than 100cm")]
+        [Range(0, 200, ErrorMessage = "Tail height cannot be a negative number or greater than 200cm")]
         [Required(ErrorMessage = "TailLength is required")]
         [JsonPropertyName("tail_length")]
         public int TailLength { get; set; }
+        [Range(0, 100, ErrorMessage = "Weight cannot be a negative number or greater than 100kg")]
         [Required(ErrorMessage = "Weight is required")]
         [JsonPropertyName("weight")]
         public int Weight { get; set; }
