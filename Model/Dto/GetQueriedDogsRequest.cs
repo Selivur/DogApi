@@ -2,7 +2,7 @@
 
 namespace DogApi.Model.Dto
 {
-    public class GetQueriedDogsRequest
+    public record GetQueriedDogsRequest
     {
         [JsonPropertyName("attribute")]
         public string? Atribute { get; set; }
