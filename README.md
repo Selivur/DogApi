@@ -51,9 +51,6 @@ This is a simple API built with ASP.NET Core Web API and Entity Framework Core f
 3. Run the application.
 4. Use the provided endpoints to interact with the API.
 
-#### Contributors
-- [Your Name](link_to_github_profile) - [@your_twitter_handle](https://twitter.com/your_twitter_handle)
-
 #### License
 This project is licensed under the [MIT License](LICENSE).
 
